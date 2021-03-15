@@ -13,11 +13,13 @@ const Movie = ({
             <div>
                 <img src={image} height='100px' alt='IMAGE NOT AVAILABLE'/>
             </div>
-            <input type='button' value={title} onClick={() => onToggle({title, comment, image})}/>
-            <br/>
-            <span>
-                {comment}
-            </span>
+            <div>
+                <input type='button' value={title} onClick={() => onToggle({title, comment, image})}/>
+                <br/>
+                <span>
+                  {comment}
+                </span>
+            </div>
         </div>
     )
 }

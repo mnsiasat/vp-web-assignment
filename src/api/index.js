@@ -28,13 +28,13 @@ export function getAllMovies() {
         },
         {
             title: 'Hot Tub Time Machine',
-            image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG7vNmphIcVhEcybvSvMgbTkV6EE2twHBNanKvgDx3ZS7Ivn6Dtg',
+            image: 'https://img.discogs.com/Ed4gXTQGNbogGHQr90n1JuKrvJo=/fit-in/300x300/filters:strip_icc():format(jpeg):mode_rgb():quality(40)/discogs-images/R-2669398-1295955782.jpeg.jpg',
             comment: 'Someone said this was fun. Maybe!'
         },
     ]
 }
 
-export function add(title, comment, image) {
+export function add({title, comment, image}) {
     const movies = getAllMovies()
     movies.push({title, comment, image})
     localStorage.setItem('movies-all', JSON.stringify(movies))
@@ -57,7 +57,7 @@ export function addWatchedMovie
     localStorage.setItem('movies-watched', JSON.stringify(movies))
 }
 
-export function removeWatchedMovie({title}) {
+export function removeWatchedMovie(title) {
     const movies = getWatchedMovies()
 
     const newWatchedMovies = movies && movies.length > 0 ? movies.filter(item => item.title !== title) : []
