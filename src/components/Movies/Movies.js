@@ -9,9 +9,11 @@ const Movies = ({category, list: movies, onToggleItem}) => {
             <ul className='gradient-list'>
                 {movies.map((item, index) => (
                     <li key={index}>
-                        <Movie title={item.title}
+                        <Movie id={item.id}
+                               title={item.title}
                                image={item.image}
                                comment={item.comment}
+                               watched={item.watched}
                                onToggle={onToggleItem}
                         />
                     </li>
