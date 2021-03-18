@@ -1,5 +1,4 @@
 import React from 'react'
-import {add} from '../../api'
 import classes from './AddMovieForm.module.scss'
 
 const AddMovieForm = ({
