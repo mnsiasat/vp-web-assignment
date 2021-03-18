@@ -1,7 +1,7 @@
 import React, {useEffect, useReducer} from 'react'
 import useHttp from "../../hooks/http"
 import Movies from "../../components/Movies/Movies"
-import {MOVIE_ACTIONS} from "../../constants";
+import {DASHBOARD_ACTIONS} from "../../constants";
 
 const moviesReducer = (allMovies, action) => {
     switch (action.type) {
@@ -20,9 +20,9 @@ const moviesReducer = (allMovies, action) => {
 }
 
 const MoviesToWatch = ({
-    onNotifyUpdate,
-    newMovieAdded,
-}) => {
+                           onNotifyUpdate,
+                           dashboardUpdate,
+                       }) => {
     const [allMovies, dispatch] = useReducer(moviesReducer, [])
     const {
         isLoading,
@@ -34,15 +34,18 @@ const MoviesToWatch = ({
     } = useHttp()
 
     useEffect(() => {
-        //url, method, body, reqExtra, reqIdentifer
-        sendRequest(
-            `${process.env.REACT_APP_API_URL}/movies`,
-            'GET',
-            null,
-            null,
-            'GET_ALL_MOVIES'
-        )
-    }, [sendRequest,newMovieAdded])
+
+        //Invoke if sendRequest changed, or if dashboardUpdate changed and value is ADDED_NEW_MOVIE
+        if (!dashboardUpdate || (dashboardUpdate && dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_NEW_MOVIE))) {
+            sendRequest(
+                `${process.env.REACT_APP_API_URL}/movies`,
+                'GET',
+                null,
+                null,
+                'GET_ALL_MOVIES'
+            )
+        }
+    }, [sendRequest, dashboardUpdate])
 
     useEffect(() => {
         if (!isLoading && !error) {
@@ -63,7 +66,7 @@ const MoviesToWatch = ({
             movie,
             'UPDATE_MOVIE'
         )
-        onNotifyUpdate(MOVIE_ACTIONS.ADDED_TO_WATCHED_LIST)
+        onNotifyUpdate(`${DASHBOARD_ACTIONS.ADDED_TO_WATCHED}:${movie.title}`)
     }
 
     return (

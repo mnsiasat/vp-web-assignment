@@ -1,4 +1,4 @@
-export const MOVIE_ACTIONS = {
-    ADDED_TO_WATCHED_LIST: "add to watched list",
-    REMOVED_FROM_WATCHED_LIST: "removed from watched list"
+export const DASHBOARD_ACTIONS = {
+    ADDED_NEW_MOVIE: "add new movie to recommended watch list",
+    ADDED_TO_WATCHED: "added to list of watched movies"
 }

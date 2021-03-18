@@ -50,6 +50,9 @@ const useHttp = () => {
         }
       })
         .then(response => {
+          if(response.status === 201){
+             return null
+          }
           return response.json()
         })
         .then(responseData => {
@@ -59,7 +62,7 @@ const useHttp = () => {
             extra: reqExtra
           })
         })
-        .catch(error => {
+        .catch(error => { console.error(`Failed due to error: ${error}`)
           dispatchHttp({
             type: 'ERROR',
             errorMessage: 'Something went wrong!'

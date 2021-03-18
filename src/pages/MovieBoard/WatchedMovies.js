@@ -1,7 +1,7 @@
 import React, {useEffect, useReducer} from 'react'
 import Movies from "../../components/Movies/Movies"
 import useHttp from "../../hooks/http"
-import {MOVIE_ACTIONS} from "../../constants";
+import {DASHBOARD_ACTIONS} from "../../constants";
 
 const moviesReducer = (watchedMovies, action) => {
     switch (action.type) {
@@ -15,8 +15,7 @@ const moviesReducer = (watchedMovies, action) => {
 }
 
 const WatchedMovies = ({
-     onNotifyUpdate,
-     addedToWatchedList
+     dashboardUpdate,
  }) => {
 
     const [watchedMovies, dispatch] = useReducer(moviesReducer, [])
@@ -30,18 +29,24 @@ const WatchedMovies = ({
     } = useHttp()
 
     useEffect(() => {
+        //Invoke if sendRequest changed, or if dashboardUpdate changed and value is ADDED_TO_WATCHED
+        console.log(`Already Watched Movies CONDITION: ${dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED)}`)
 
-        //url, method, body, reqExtra, reqIdentifer
-        sendRequest(
-            `${process.env.REACT_APP_API_URL}/movies/watched`,
-            'GET',
-            null,
-            null,
-            'GET_WATCHED_MOVIES'
-        )
-    }, [sendRequest,addedToWatchedList])
+        if(!dashboardUpdate || ( dashboardUpdate && dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED))){
 
-    useEffect(() => {
+            console.log(`Already Watched Movies dashboardUpdate: ${dashboardUpdate}`)
+
+            sendRequest(
+                `${process.env.REACT_APP_API_URL}/movies/watched`,
+                'GET',
+                null,
+                null,
+                'GET_WATCHED_MOVIES'
+            )
+        }
+    }, [sendRequest,dashboardUpdate])
+
+    useEffect(() => {console.log(`reqIdentifer: ${JSON.stringify(reqIdentifer)}`)
         if (!isLoading && !error) {
             if (reqIdentifer === 'GET_WATCHED_MOVIES') {
                 dispatch({type: 'GET_WATCHED', movies: data})
@@ -60,7 +65,6 @@ const WatchedMovies = ({
             movie,
             'UPDATE_MOVIE'
         )
-        onNotifyUpdate(MOVIE_ACTIONS.REMOVED_FROM_WATCHED_LIST)
     }
 
     return (<Movies category='Already Watched' list={watchedMovies} onToggleItem={removeFromWatchedMoviesHandler}/>)
