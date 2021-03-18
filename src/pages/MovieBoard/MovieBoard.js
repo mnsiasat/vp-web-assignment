@@ -8,7 +8,7 @@ import {DASHBOARD_ACTIONS} from '../../constants'
 import useHttp from '../../hooks/http'
 
 
-const dashboardReducer = (updateDashboard, action) => { console.log(`dashboardReducer: action.updateDashboard: ${action.updateDashboard}`)
+const dashboardReducer = (updateDashboard, action) => {
     switch (action.type) {
         case 'UPDATE':
             return action.updateDashboard
@@ -40,7 +40,7 @@ const MovieBoard = props => {
         setShowAddMovieModal(!showAddMovieModal)
     }
 
-    const addNewMovieHandler = (event) => { console.log('addNewMovieHandler')
+    const addNewMovieHandler = (event) => {
         const formData = new FormData(event.target)
         event.preventDefault()
         const newMovie = Object.fromEntries(formData.entries())
@@ -55,7 +55,7 @@ const MovieBoard = props => {
         toggleShowAddMovie()
     }
 
-    const updateMovieListsHandler = (action) => { console.log(`updateMovieListsHandler action: ${action}`)
+    const updateMovieListsHandler = (action) => {
         if(action.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED)){
             dispatch({type: 'UPDATE', updateDashboard: action})
         }

@@ -30,11 +30,8 @@ const WatchedMovies = ({
 
     useEffect(() => {
         //Invoke if sendRequest changed, or if dashboardUpdate changed and value is ADDED_TO_WATCHED
-        console.log(`Already Watched Movies CONDITION: ${dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED)}`)
 
         if(!dashboardUpdate || ( dashboardUpdate && dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED))){
-
-            console.log(`Already Watched Movies dashboardUpdate: ${dashboardUpdate}`)
 
             sendRequest(
                 `${process.env.REACT_APP_API_URL}/movies/watched`,
@@ -46,7 +43,7 @@ const WatchedMovies = ({
         }
     }, [sendRequest,dashboardUpdate])
 
-    useEffect(() => {console.log(`reqIdentifer: ${JSON.stringify(reqIdentifer)}`)
+    useEffect(() => {
         if (!isLoading && !error) {
             if (reqIdentifer === 'GET_WATCHED_MOVIES') {
                 dispatch({type: 'GET_WATCHED', movies: data})
