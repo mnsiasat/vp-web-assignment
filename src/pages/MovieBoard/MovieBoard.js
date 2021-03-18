@@ -1,5 +1,5 @@
-import React, {useState, useMemo} from 'react'
-import classes from './Home.module.scss'
+import React, {useState} from 'react'
+import classes from './MovieBoard.module.scss'
 import MoviesToWatch from "./MoviesToWatch"
 import WatchedMovies from "./WatchedMovies"
 import Modal from "../../components/Modal/Modal"
@@ -7,7 +7,7 @@ import AddMovieForm from "../../components/AddMovieForm/AddMovieForm"
 import {MOVIE_ACTIONS} from "../../constants";
 import useHttp from "../../hooks/http";
 
-const Home = props => {
+const MovieBoard = props => {
     const [showAddMovieModal, setShowAddMovieModal] = useState(false)
     const [addedToWatchedListCnt, setAddedToWatchedListCnt] = useState(0)
     const [addedNewMovieCnt, setAddedNewMovieCnt] = useState(0)
@@ -51,4 +51,4 @@ const Home = props => {
         </div>
     )
 }
-export default Home
+export default MovieBoard
