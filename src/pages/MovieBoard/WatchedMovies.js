@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react'
+import React, {useEffect, useReducer, useCallback} from 'react'
 import Movies from "../../components/Movies/Movies"
 import useHttp from "../../hooks/http"
 import {DASHBOARD_ACTIONS} from "../../constants";
@@ -30,7 +30,6 @@ const WatchedMovies = ({
 
     useEffect(() => {
         //Invoke if sendRequest changed, or if dashboardUpdate changed and value is ADDED_TO_WATCHED
-
         if(!dashboardUpdate || ( dashboardUpdate && dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED))){
 
             sendRequest(
@@ -47,14 +46,13 @@ const WatchedMovies = ({
         if (!isLoading && !error) {
             if (reqIdentifer === 'GET_WATCHED_MOVIES') {
                 dispatch({type: 'GET_WATCHED', movies: data})
-            }
-            if (reqIdentifer === 'UPDATE_MOVIE') {
+            }else if (reqIdentifer === 'UPDATE_MOVIE') {
                 dispatch({type: 'UPDATE', movie: data})
             }
         }
     }, [data, reqExtra, reqIdentifer, isLoading, error])
 
-    const removeFromWatchedMoviesHandler = (movie) => {
+    const removeFromWatchedMoviesHandler = useCallback(movie => {
         sendRequest(
             `${process.env.REACT_APP_API_URL}/movies/${movie.id}`,
             'PUT',
@@ -62,7 +60,7 @@ const WatchedMovies = ({
             movie,
             'UPDATE_MOVIE'
         )
-    }
+    },[sendRequest])
 
     return (<Movies category='Already Watched' list={watchedMovies} onToggleItem={removeFromWatchedMoviesHandler}/>)
 

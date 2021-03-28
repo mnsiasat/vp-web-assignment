@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react'
+import React, {useEffect, useReducer, useCallback} from 'react'
 import useHttp from "../../hooks/http"
 import Movies from "../../components/Movies/Movies"
 import {DASHBOARD_ACTIONS} from "../../constants";
@@ -34,7 +34,6 @@ const MoviesToWatch = ({
     } = useHttp()
 
     useEffect(() => {
-
         //Invoke if sendRequest changed, or if dashboardUpdate changed and value is ADDED_NEW_MOVIE
         if (!dashboardUpdate || (dashboardUpdate && dashboardUpdate.includes(DASHBOARD_ACTIONS.ADDED_NEW_MOVIE))) {
             sendRequest(
@@ -54,11 +53,12 @@ const MoviesToWatch = ({
             }
             if (reqIdentifer === 'UPDATE_MOVIE') {
                 dispatch({type: 'UPDATE', movie: data})
+                onNotifyUpdate(`${DASHBOARD_ACTIONS.ADDED_TO_WATCHED}:${data.title}`)
             }
         }
     }, [data, reqExtra, reqIdentifer, isLoading, error])
 
-    const addToWatchedMoviesHandler = (movie) => {
+    const addToWatchedMoviesHandler = useCallback(movie => {
         sendRequest(
             `${process.env.REACT_APP_API_URL}/movies/${movie.id}`,
             'PUT',
@@ -66,8 +66,7 @@ const MoviesToWatch = ({
             movie,
             'UPDATE_MOVIE'
         )
-        onNotifyUpdate(`${DASHBOARD_ACTIONS.ADDED_TO_WATCHED}:${movie.title}`)
-    }
+    },[onNotifyUpdate,sendRequest])
 
     return (
         <Movies category='Watchlist' isLoading={isLoading} list={allMovies} onToggleItem={addToWatchedMoviesHandler}/>)

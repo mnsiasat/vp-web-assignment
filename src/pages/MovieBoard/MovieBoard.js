@@ -1,4 +1,4 @@
-import React, {useReducer, useState, useEffect} from 'react'
+import React, {useReducer, useState, useEffect, useCallback} from 'react'
 import classes from './MovieBoard.module.scss'
 import MoviesToWatch from './MoviesToWatch'
 import WatchedMovies from './WatchedMovies'
@@ -40,7 +40,7 @@ const MovieBoard = props => {
         setShowAddMovieModal(!showAddMovieModal)
     }
 
-    const addNewMovieHandler = (event) => {
+    const addNewMovieHandler = event => {
         const formData = new FormData(event.target)
         event.preventDefault()
         const newMovie = Object.fromEntries(formData.entries())
@@ -55,11 +55,11 @@ const MovieBoard = props => {
         toggleShowAddMovie()
     }
 
-    const updateMovieListsHandler = (action) => {
+    const updateMovieListsHandler = useCallback(action => {
         if(action.includes(DASHBOARD_ACTIONS.ADDED_TO_WATCHED)){
             dispatch({type: 'UPDATE', updateDashboard: action})
         }
-    }
+    },[])
 
     return (
         <div className={classes.Home}>
