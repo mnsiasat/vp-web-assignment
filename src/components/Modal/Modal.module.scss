@@ -1,0 +1,73 @@
+.modal {
+
+  /* Overlay page content */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 10000;
+
+  /* Transition opacity on open */
+  -webkit-transition: opacity 500ms ease-out;
+  -moz-transition: opacity 500ms ease-out;
+  transition: opacity 500ms ease-out;
+
+}
+
+/* Content */
+.modal > div {
+  width: 500px;
+  background: #fff;
+  position: relative;
+  margin: 10% auto;
+
+  /* Default minimise animation */
+  -webkit-animation: minimise 500ms linear;
+  -moz-animation: minimise 500ms linear;
+  animation: minimise 500ms linear;
+
+  /* Prettify */
+  padding: 30px;
+  border-radius: 7px;
+  box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  background: #fff;
+  background: -moz-linear-gradient(#fff, #ccc);
+  background: -webkit-linear-gradient(#fff, #ccc);
+  background: -o-linear-gradient(#fff, #ccc);
+  background: linear-gradient(#fff, #ccc);
+  text-shadow: 0 1px 0 #fff;
+}
+
+.modal h2 {
+  font-size: 36px;
+  padding: 0 0 20px;
+}
+
+@-webkit-keyframes minimise {
+  100% {
+    -webkit-transform: scale3d(1,1,1);
+  }
+  0% {
+    -webkit-transform: scale3d(0.1,0.1,1);
+  }
+}
+
+@-moz-keyframes minimise {
+  0% {
+    -moz-transform: scale3d(1,1,1);
+  }
+  100% {
+    -moz-transform: scale3d(0.1,0.1,1);
+  }
+}
+
+@keyframes minimise {
+  100% {
+    transform: scale3d(1,1,1);
+  }
+  0% {
+    transform: scale3d(0.1,0.1,1);
+  }
+}
